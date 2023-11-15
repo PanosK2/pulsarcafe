@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Πίνακας Προϊόντων</title>
+</head>
+<body>
+  <div id="productList">
+    <!-- Εδώ θα εμφανίσουμε τα στοιχεία του πίνακα -->
+  </div>
+
+  <script>
+    const XLSX = require('xlsx');
+    const workbook = XLSX.readFile('catalog.xlsx');
+    const sheet_name_list = workbook.SheetNames;
+    const xlData = XLSX.utils.sheet_to_json(workbook.Sheets[sheet_name_list[0]]);
+
+    const productList = document.getElementById('productList');
+
+    xlData.forEach((item) => {
+        const productName = item['Όνομα Προϊόντος']; // Αντικαταστήστε το 'Όνομα Προϊόντος' με την ακριβή ονομασία της αριστερής στήλης.
+        const productPrice = item['Τιμή']; // Αντικαταστήστε το 'Τιμή' με την ακριβή ονομασία της δεξιάς στήλης.
+
+        const article = document.createElement('article');
+        article.className = 'item';
+
+        const productNamePara = document.createElement('p');
+        productNamePara.className = 'products';
+        productNamePara.textContent = productName;
+
+        const productPricePara = document.createElement('p');
+        productPricePara.className = 'price';
+        productPricePara.textContent = productPrice;
+
+        article.appendChild(productNamePara);
+        article.appendChild(productPricePara);
+
+        productList.appendChild(article);
+    });
+  </script>
+</body>
+</html>
